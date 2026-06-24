@@ -1,0 +1,22 @@
+# Binaries
+/bin/
+*.exe
+/url-shortener
+
+# SQLite database files
+*.db
+*.db-wal
+*.db-shm
+
+# Test / coverage output
+*.out
+coverage.*
+
+# Environment overrides
+.env
+.env.local
+
+# Editor / OS cruft
+.DS_Store
+.idea/
+.vscode/

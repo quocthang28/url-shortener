@@ -1,0 +1,22 @@
+# Runtime-only image: copies a binary you cross-compiled locally, no Go build.
+# Build the binary first:
+#   GOOS=linux GOARCH=amd64 CGO_ENABLED=0 \
+#     go build -trimpath -ldflags="-s -w" -o url-shortener ./cmd/server
+FROM alpine:3.22
+WORKDIR /app
+
+RUN adduser -D -u 10001 appuser \
+    && mkdir -p /data \
+    && chown appuser:appuser /data
+
+ENV PORT=8080 \
+    DB_PATH=/data/urls.db \
+    BASE_URL=http://localhost:8080 \
+    GIN_MODE=release
+VOLUME /data
+EXPOSE 8080
+
+COPY url-shortener ./url-shortener
+
+USER appuser
+ENTRYPOINT ["/app/url-shortener"]
